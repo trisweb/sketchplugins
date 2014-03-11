@@ -7,7 +7,7 @@
 var artboards = [[doc currentPage] artboards];
 
 // Deselect all
-if (selection.count() > 0) {
+if (selection && selection.count() > 0) {
   for(var k=0; k < selection.count(); k++) {
     selection[k].setIsSelected(false);
   }
