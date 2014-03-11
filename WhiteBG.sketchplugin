@@ -1,0 +1,58 @@
+// Give all artboards a white background (ctrl+shift+w)
+// (ctrl shift w)
+
+// A new white layer will be created if a _Background layer doesn't already exist.
+// This correctly handles if the _Background layer is already there, adjusts it for size/color.
+
+var artboards = [[doc currentPage] artboards];
+
+// Deselect all
+if (selection.count() > 0) {
+  for(var k=0; k < selection.count(); k++) {
+    selection[k].setIsSelected(false);
+  }
+}
+
+if ([artboards count] > 0) {
+  for (var i=0; i < [artboards count]; i++) {
+    var ag = artboards[i];
+    var frame = [ag frame];
+    // Find if the background layer already exists or not.
+    var layers = [ag layers];
+    var rect = null;
+    for (var j=0; j < [layers count]; j++) {
+      var l = layers[j];
+      if ([l name]+"" == "_Background") {
+        log("Found existing");
+        rect = l;
+      }
+    }
+
+    if (rect == null) {
+      rect = ag.addLayerOfType("rectangle");
+      rect.setName("_Background");
+    }
+
+    // Set size
+    [rect frame].width = [frame width];
+    [rect frame].height = [frame height];
+
+    // Set fill
+    if (rect.style().fills()[0] != null) {
+      rect.style().fills().removeStylePartAtIndex(0);
+    }
+    rect.style().fills().addNewStylePart();
+    var color = rect.style().fills()[0].color();
+    color.setRed(1);
+    color.setGreen(1);
+    color.setBlue(1);
+
+    // Send to back
+    rect.setIsSelected(true);
+    [[doc actionWithName:"MSMoveToBackAction"] performAction:nil];
+    rect.setIsSelected(false);
+    // Force a redraw
+    //[rect markLayerDirty];
+    rect.setIsLocked(true);
+  }
+}
