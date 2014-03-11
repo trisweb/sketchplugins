@@ -1,5 +1,5 @@
-// Give all artboards a white background (ctrl+shift+w)
-// (ctrl shift w)
+// Give all artboards a white background (option+shift+w)
+// (opt shift w)
 
 // A new white layer will be created if a _Background layer doesn't already exist.
 // This correctly handles if the _Background layer is already there, adjusts it for size/color.
@@ -51,8 +51,6 @@ if ([artboards count] > 0) {
     rect.setIsSelected(true);
     [[doc actionWithName:"MSMoveToBackAction"] performAction:nil];
     rect.setIsSelected(false);
-    // Force a redraw
-    //[rect markLayerDirty];
     rect.setIsLocked(true);
   }
 }
